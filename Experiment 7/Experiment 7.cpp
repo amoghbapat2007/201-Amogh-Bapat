@@ -1,68 +1,72 @@
 #include <iostream>
+#include <cstring>
 using namespace std;
-class Complex
+
+class MyString
 {
-    int real;
-    int imaginary;
+    char *data;
 
 public:
-    Complex()
+    MyString()
     {
-        real = 0;
-        imaginary = 0;
+        data = new char[1];
+        data[0] = '\0';
     }
+
+    
+    MyString(const char *str)
+    {
+        data = new char[strlen(str) + 1];
+        strcpy(data, str);
+    }
+
+    
+    MyString(const MyString &s)
+    {
+        data = new char[strlen(s.data) + 1];
+        strcpy(data, s.data);
+    }
+
+    
     void accept()
     {
-        cout << "Enter real part: ";
-        cin >> real;
+        char str[100];
 
-        cout << "Enter imaginary part: ";
-        cin >> imaginary;
-    }
-    Complex operator+(Complex c)
-    {
-        Complex temp;
-        temp.real = real + c.real;
-        temp.imaginary = imaginary + c.imaginary;
-        return temp;
-    }
-    Complex operator-(Complex c)
-    {
-        Complex temp;
-        temp.real = real - c.real;
-        temp.imaginary = imaginary - c.imaginary;
+        cout << "Enter a string: ";
+        cin.getline(str, 100);
 
-        return temp;
+        delete[] data;
+        data = new char[strlen(str) + 1];
+        strcpy(data, str);
     }
+
+    
     void display()
     {
-        cout << real << " + " << imaginary << "i" << endl;
+        cout << data << endl;
+    }
+
+    
+    ~MyString()
+    {
+        delete[] data;
     }
 };
 
-
 int main()
 {
-    Complex First;
-    Complex Second;
+    MyString s1;
+    s1.accept();
+    cout << "String 1: ";
+    s1.display();
 
-    Complex Sum;
-    Complex Difference;
+    MyString s2("Hello World");
+    cout << "String 2: ";
+    s2.display();
 
-    cout << "Enter first complex number:" << endl;
-    First.accept();
-    cout << "\nEnter second complex number:" << endl;
-    Second.accept();
-    Sum = First + Second;
-    Difference = First - Second;
-    cout << "\nFirst complex number: ";
-    First.display();
-    cout << "Second complex number: ";
-    Second.display();
-    cout << "\nAddition: ";
-    Sum.display();
-    cout << "Subtraction: ";
-    Difference.display();
+    MyString s3(s2);
+    cout << "String 3 (Copied): ";
+    s3.display();
 
     return 0;
 }
