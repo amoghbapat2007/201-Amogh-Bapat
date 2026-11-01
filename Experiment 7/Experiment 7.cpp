@@ -32,7 +32,6 @@ public:
         temp.real = real - c.real;
         temp.imaginary = imaginary - c.imaginary;
 
-        // Return the result
         return temp;
     }
     void display()
